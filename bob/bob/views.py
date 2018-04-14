@@ -9,6 +9,13 @@ from jwt.jwk import OctetJWK
 
 
 @csrf_exempt
+def index(request):
+    template = loader.get_template('index.html')
+    response = HttpResponse(template.render({}, request))
+    return response
+
+
+@csrf_exempt
 def unsecure(request):
     template = loader.get_template('submit.html')
     response = HttpResponse(template.render({}, request))

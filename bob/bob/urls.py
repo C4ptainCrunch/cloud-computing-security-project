@@ -17,6 +17,7 @@ from django.urls import path
 from bob import views
 
 urlpatterns = [
+    path('index', views.index),
     path('unsecure', views.unsecure),
     path('chrome_protect', views.chrome_protect),
     path('referer_check', views.referer_check),
