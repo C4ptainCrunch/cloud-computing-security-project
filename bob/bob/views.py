@@ -86,7 +86,7 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username == "admin" and password == "toor":
-            encoded = jwt.encode({'username': "admin", "ip": request.META.get('REMOTE_ADDR')}, KEY, 'HS256')
+            encoded = jwt.encode({'username': "admin", "ip": request.META.get('X-Real-IP')}, KEY, 'HS256')
             response = redirect('/admin')
             response.set_cookie('auth', encoded)
             # response.cookies['auth']['httponly'] = True
@@ -102,8 +102,8 @@ def admin(request):
         decoded = jwt.decode(request.COOKIES.get("auth", ''), KEY)
         if decoded['username'] != 'admin':
             return HttpResponse("Bad user")
-        if decoded['ip'] != request.META.get('REMOTE_ADDR'):
-            return HttpResponse("Bad ip")
+        if decoded['ip'] != request.META.get('X-Real-IP'):
+            return HttpResponse("Bad ip %s, not %s" % (request.META.get('X-Real-IP'), decoded['ip']))
 
         template = loader.get_template('admin.html')
         response = HttpResponse(template.render({}, request))
