@@ -106,7 +106,7 @@ def admin(request):
             return HttpResponse("Bad ip %s, not %s" % (request.META.get('HTTP_X_REAL_IP'), decoded['ip']))
 
         template = loader.get_template('admin.html')
-        response = HttpResponse(template.render({}, request))
+        response = HttpResponse(template.render({'ip': request.META.get('HTTP_X_REAL_IP')}, request))
         return response
 
     except JWTDecodeError:
