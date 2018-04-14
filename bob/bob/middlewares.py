@@ -17,7 +17,7 @@ class SafeRefererMiddleware:
 
     def __call__(self, request):
         if request.method != 'GET':
-            if not request.META['HTTP_REFERER'].startswith("http://bob-cloud-computing.tk:8000/"):
+            if not request.META['HTTP_REFERER'].startswith("http://bob-cloud-computing.tk/"):
                 return HttpResponse("Bad referer")
         response = self.get_response(request)
         return response
@@ -29,7 +29,7 @@ class PreflightMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        response['Access-Control-Allow-Origin'] = "http://bob-cloud-computing.tk:8000/"
+        response['Access-Control-Allow-Origin'] = "http://bob-cloud-computing.tk/"
         return response
 
 
@@ -49,5 +49,5 @@ class CSPXHRMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        response['Content-Security-Policy'] = "connect-src 'self' http://out.bob-cloud-computing.tk:8002/; default-src *; script-src 'self'; style-src 'self'; img-src 'self' data:; report-uri https://sentry.io/api/1189287/csp-report/?sentry_key=6a8127a98f32458daf9e82be16903f56"
+        response['Content-Security-Policy'] = "connect-src 'self' http://out.bob-cloud-computing.tk/; default-src *; script-src 'self'; style-src 'self'; img-src 'self' data:; report-uri https://sentry.io/api/1189287/csp-report/?sentry_key=6a8127a98f32458daf9e82be16903f56"
         return response
