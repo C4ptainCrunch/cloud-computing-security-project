@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Nice BOB website</title>
+  </head>
+  <body>
+    Hello, i'm a vulnerable website
+    {% autoescape off %}
+        {{request.POST.vulnerable}}
+    {% endautoescape %}
+    <p id="secret">I'm a secret value, do not leak me : PassW0rd</p>
+  </body>
+</html>

