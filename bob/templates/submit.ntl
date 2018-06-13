@@ -6,7 +6,7 @@
   </head>
   <body>
     I'm a vulnerable website<br>
-    <h3>Hello {{request.POST.vulnerable}}</h3>
+    <h3>Hello #posted_value#</h3>
     <p id="secret">I'm a secret value, do not leak me : PassW0rd</p>
   </body>
 </html>

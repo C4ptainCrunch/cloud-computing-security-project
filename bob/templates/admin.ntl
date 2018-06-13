@@ -5,6 +5,6 @@
     <title>Nice BOB website</title>
   </head>
   <body>
-    Admin hello ! Your trusted ip is {{ip}}
+    Admin hello ! Your trusted ip is #ip#
   </body>
 </html>
