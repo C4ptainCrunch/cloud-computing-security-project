@@ -3,6 +3,8 @@ const escape = require('escape-html');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const csrf = require('csurf')
+const KJUR = require('jsrsasign').KJUR
+const jwt = require('jsonwebtoken')
 
 const app = express()
 
@@ -98,11 +100,57 @@ app.post('/crsf', csrfProtection, (req, res) => {
 })
 
 
-// app.get('/login', views.login)
-// app.post('/login', views.login)
+app.get('/login', csrfProtection, (req, res) => {
+    res.render('login', {params:{'csrfToken': req.csrfToken()}})
+})
+app.post('/login', (req, res) => {
+    var username = req.body.username
+    var password = req.body.password
+    console.log(username, password)
+    if(username == "admin" && password == "toor") {
+        var ip = req.headers['x-real-ip']
+        if(ip === undefined) {
+            ip = '1.1.1.1' // Test for dev when not behind the nginx proxy
+        }
 
-// app.get('/admin', views.admin)
+        var oHeader = {alg: 'HS256', typ: 'JWT'};
+        var oPayload = {};
+        oPayload.username = "admin"
+        oPayload.ip = ip
 
-app.get('/', (req, res) => res.send('Hello Bob!'))
+        var sHeader = JSON.stringify(oHeader);
+        var sPayload = JSON.stringify(oPayload);
+        var sJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, "MY secret");
+
+        res.cookie('auth', sJWT, { maxAge: 900000, httpOnly: false })
+        res.redirect('/admin');
+    } else {
+        res.render('login', {params:{}})
+    }
+})
+
+app.get('/admin', (req, res) => {
+    var ip = req.headers['x-real-ip']
+    if(ip === undefined) {
+        ip = '1.1.1.1' // Test for dev when not behind the nginx proxy
+    }
+
+    var token = req.cookies.auth
+    if(token === undefined) {
+        res.send('No cookie found')
+    } else {
+        var decoded = jwt.verify(token, 'MY secret');
+        if(decoded.username != 'admin') {
+            res.send('Bad user')
+        } else {
+            if(decoded.ip != ip) {
+                res.send("Bad ip")
+            } else {
+                res.render('admin', {params:{'ip': ip}})
+            }
+        }
+    }
+})
+
 
 app.listen(8210, () => console.log('Bob app listening on port 8210!'))
