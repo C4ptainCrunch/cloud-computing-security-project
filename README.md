@@ -87,9 +87,12 @@ But what is Eve changes the algorithm from `HS256` to `none` ? Would the server
 accepts the algorithm from the header instead of a fixed value on its side ?
 It's worth a try !
 
-Eve then writes a short js PoC (`/poc.js`) that decodes the JWT, changes the ip
+Eve then writes a short js PoC (`./poc.js`) that decodes the JWT, changes the ip
 and signs it with the `none` algorithm. Eve then makes an http request to the
 vulnerable server and ...
+
+`./poc.js` takes the original token as first argument and the attacker's ip as the
+second.
 
 (Eve might want to `cd eve/; npm install` before running this command)
 
