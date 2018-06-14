@@ -23,6 +23,9 @@ difference.
 Eve's website has a [nice page](https://eve-cloud-computing.tk/hidden.html),
 where you can distract yourself with a nice video of cats.
 
+(Eve likes simplicity, Eve's website is static so serving `eve/*.html` with any
+webserver will work)
+
 But while you are distracted and watching, Eve can use your browser and make it
 send an carefully crafted payload to https://bob-cloud-computing.tk/unsecure
 to extract data on your behalf.
