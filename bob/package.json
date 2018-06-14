@@ -9,8 +9,7 @@
     "csurf": "^1.9.0",
     "escape-html": "^1.0.3",
     "express": "^4.16.3",
-    "jsonwebtoken": "^8.3.0",
-    "jsrsasign": "^8.0.12"
+    "jsonwebtoken": "^8.3.0"
   },
   "devDependencies": {},
   "scripts": {

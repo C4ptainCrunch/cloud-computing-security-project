@@ -3,8 +3,8 @@ const escape = require('escape-html');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const csrf = require('csurf')
-const KJUR = require('jsrsasign').KJUR
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const jws = require('jws');
 
 const app = express()
 
@@ -113,16 +113,8 @@ app.post('/login', (req, res) => {
             ip = '1.1.1.1' // Test for dev when not behind the nginx proxy
         }
 
-        var oHeader = {alg: 'HS256', typ: 'JWT'};
-        var oPayload = {};
-        oPayload.username = "admin"
-        oPayload.ip = ip
-
-        var sHeader = JSON.stringify(oHeader);
-        var sPayload = JSON.stringify(oPayload);
-        var sJWT = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, "MY secret");
-
-        res.cookie('auth', sJWT, { maxAge: 900000, httpOnly: false })
+        var token = jwt.sign({ username: 'admin', ip: ip }, "MY secret", { algorithm: 'HS256'});
+        res.cookie('auth', token, { maxAge: 900000, httpOnly: false })
         res.redirect('/admin');
     } else {
         res.render('login', {params:{}})
@@ -139,14 +131,18 @@ app.get('/admin', (req, res) => {
     if(token === undefined) {
         res.send('No cookie found')
     } else {
-        var decoded = jwt.verify(token, 'MY secret');
-        if(decoded.username != 'admin') {
-            res.send('Bad user')
+        if(!jws.verify(token, "MY secret")) {
+            res.send("Invalid JWT")
         } else {
-            if(decoded.ip != ip) {
-                res.send("Bad ip")
+            var decoded = jwt.decode(token)
+            if(decoded.username != 'admin') {
+                res.send('Bad user')
             } else {
-                res.render('admin', {params:{'ip': ip}})
+                if(decoded.ip != ip) {
+                    res.send("Bad ip")
+                } else {
+                    res.render('admin', {params:{'ip': ip}})
+                }
             }
         }
     }
