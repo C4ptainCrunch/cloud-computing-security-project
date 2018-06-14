@@ -131,7 +131,7 @@ app.get('/admin', (req, res) => {
     if(token === undefined) {
         res.send('No cookie found')
     } else {
-        if(!jws.verify(token, "MY secret")) {
+        if(!jws.verify(token)) {
             res.send("Invalid JWT")
         } else {
             var decoded = jwt.decode(token)
