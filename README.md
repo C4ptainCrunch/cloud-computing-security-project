@@ -38,6 +38,8 @@ The first part of the page shows a benign payload that proves the XSS but the
 second part of the page ("Try a real extraction on unsecure") shows a smarter
 payload that sends all your secrets to a remote server.
 
+### Mitigation techniques
+
 Bob's website is vulnerable to Eve's attack but not every page is created equal :
 `/secure` is vulnerable but the other ones are not. Nevertheless Eve also added the
 payload forms so you can see that the XSS no longer works.
@@ -49,6 +51,8 @@ Here is a list of the pages and the protections :
  * `no_extract` : CSP to prevent data exfiltration by restricting outbound requests
  * `escape` : Escaping the user input server-side
  * `crsf` : Use a CSRF token
+
+Both CSP rules have a report-url to send violations to a [sentry](https://sentry.io) instance)
 
 ## Eve is an evil attacker: Eve breaks into the admin
 
@@ -101,3 +105,11 @@ second.
 ```
 
 Voila !
+
+### Mitigation techniques
+
+First, the server should verify that the hashmac algoritm was not changed (see this [blog post](https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/) for more details)
+
+The cookie should be set to [HTTP only](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#Secure_and_HttpOnly_cookies) so that the JS can not read it and of course you should fix the XSS that was used to steal the cookie.
+
+Other mitigation techniques could include storing the ip (and other user-agent information) on the server side, setting an expiration on the token meaning that the attack should happen quickly, using 2 factor auth before showing sensitive information, ...
