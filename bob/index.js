@@ -8,6 +8,8 @@ const jws = require('jws');
 
 const app = express()
 
+const SECRET = "MY secret"
+
 //////////////
 // Boiletplate
 
@@ -113,7 +115,7 @@ app.post('/login', (req, res) => {
             ip = '1.1.1.1' // Test for dev when not behind the nginx proxy
         }
 
-        var token = jwt.sign({ username: 'admin', ip: ip }, "MY secret", { algorithm: 'HS256'});
+        var token = jwt.sign({ username: 'admin', ip: ip }, SECRET, { algorithm: 'HS256'});
         res.cookie('auth', token, { maxAge: 900000, httpOnly: false })
         res.redirect('/admin');
     } else {
@@ -131,7 +133,7 @@ app.get('/admin', (req, res) => {
     if(token === undefined) {
         res.send('No cookie found')
     } else {
-        if(!jws.verify(token)) {
+        if(!jws.verify(token, SECRET)) {
             res.send("Invalid JWT")
         } else {
             var decoded = jwt.decode(token)
