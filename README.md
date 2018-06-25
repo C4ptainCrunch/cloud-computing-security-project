@@ -38,7 +38,7 @@ The first part of the page shows a benign payload that proves the XSS but the
 second part of the page ("Try a real extraction on unsecure") shows a smarter
 payload that sends all your secrets to a remote server.
 
-Data is exfiltrated to a [requestbin](https://requestbin.etnarek.com/rw8pd2s0?inspect).
+Data is exfiltrated to a [requestbin](https://requestbin.etnarek.com/uz22knuz?inspect).
 You can look at the data that has been sent over there.
 (Beware that the requestbin has a fairly short life time, it might have been
 deleted if you read this too far in the future.)
